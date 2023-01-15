@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+
+  nat:
+    #临时解决不支持m1芯片的问题 一般情况是可以去掉 会自动匹配对应的系统
+    #platform: linux/x86_64
+    image: anynat:latest #镜像版本
+    container_name: anynat_1 #容器名称
+    ports:
+      - "2333:2333"
+      - "443:443"
+    restart: always
+    volumes:
+      - ./container/anynat/logs:/root/anynat/logs/pm2/logs
+      - ./container/anynat/userConfig:/root/anynat/userConfig

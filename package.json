@@ -1,0 +1,84 @@
+{
+  "name": "anynat",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist-prod",
+    "docs"
+  ],
+  "main": "./dist-prod/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist-prod/src/**/**.d.ts",
+      "import": "./dist-prod/index.js",
+      "require": "./dist-prod/index.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "npm run build-dev && concurrently \"npm run build-dev-watch\" \"node ecosystem.dev.config.cjs\"",
+    "prod": "npm run build-prod && pm2 stop ecosystem.config.cjs && pm2 delete ecosystem.config.cjs && npm run startup-all && pm2 start ecosystem.config.cjs && npm run startup-all",
+    "prod-runtime": "npm run build-prod && pm2-runtime start ecosystem.config.cjs",
+    "build-dev": "tsc && vite build --mode development",
+    "build-prod": "tsc && vite build --mode production",
+    "build-dev-watch": "tsc && vite build --mode development --watch",
+    "build-prod-watch": "tsc && vite build --mode production --watch",
+    "startup-all": "pm2 save && pm2 startup && pm2 save",
+    "doc": "typedoc --tsconfig tsconfig.json --options typedoc.cjs",
+    "build-image": "docker build -t anynat:latest .",
+    "image": "docker-compose up -d"
+  },
+  "browserslist": [
+    "defaults",
+    "> 0.01%",
+    "last 48 versions",
+    "Android >= 5",
+    "IOS >= 8",
+    "Chrome >= 50",
+    "Safari >= 10"
+  ],
+  "dependencies": {
+    "aedes": "^0.48.1",
+    "core.crypto": "0.0.1",
+    "date-fns": "^2.29.3",
+    "eventemitter2": "^6.4.9",
+    "lodash": "^4.17.21",
+    "mqtt": "^4.3.7",
+    "p-queue": "^7.3.0",
+    "websocket-stream": "^5.5.2",
+    "ws": "^8.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.11.18",
+    "@types/ws": "^8.5.4",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "concurrently": "^7.6.0",
+    "core-js": "^3.27.1",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "pm2": "^5.2.2",
+    "prettier": "^2.8.2",
+    "typedoc": "^0.23.24",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4",
+    "vite-plugin-babel": "^1.1.3",
+    "vite-plugin-dts": "^1.7.1",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "packageManager": "yarn@3.3.1",
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=19.x"
+  }
+}
