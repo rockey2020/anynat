@@ -6,7 +6,7 @@ const config = {
   script: "./dist-dev/index.js",
   args: "start",
   node_args: "--expose-gc --trace-warnings",
-  instances: 0,//0:根据cpu核数启动对应的进程数量
+  instances: 1,//0:根据cpu核数启动对应的进程数量
   exec_mode: "cluster",//cluster or fork
   watch: ["./dist-dev"], //监听变化重载应用
   max_memory_restart: "500M",//超出最大内存就重启应用
