@@ -28,3 +28,6 @@ if (VITE_RUNTIME_TYPE === "both") {
     },
   );
 }
+
+//用来打印执行栈警告信息
+process.on("warning", (e) => console.warn(e.stack));

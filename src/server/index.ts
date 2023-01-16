@@ -11,7 +11,7 @@ import { UDPServer, udpServerMap } from "../base/udp/udpServer";
 import { ForwardServer } from "./forwardServer";
 import http2, { SecureServerOptions } from "node:http2";
 import ws from "websocket-stream";
-import tls, { TlsOptions } from "node:tls";
+import tls from "node:tls";
 
 const isDebug = getConfig.isDebug;
 
