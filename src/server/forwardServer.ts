@@ -140,12 +140,17 @@ export class ForwardServer {
     return undefined;
   }
 
-  public addDomain(
-    port: number,
-    domains: Array<string>,
-    type: ConnectionType,
-    hasSSL = false,
-  ) {
+  public addDomain({
+    port,
+    domains,
+    type,
+    hasSSL,
+  }: {
+    port: number;
+    domains: Array<string>;
+    type: ConnectionType;
+    hasSSL: boolean;
+  }) {
     if (!domains || domains.length === 0) return;
     this.binds.set(`${port}/${type}`, { domains, hasSSL, type, port });
   }

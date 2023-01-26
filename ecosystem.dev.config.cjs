@@ -11,7 +11,7 @@ const config = {
   watch: ["./dist-dev"], //监听变化重载应用
   max_memory_restart: "500M",//超出最大内存就重启应用
   autorestart: true,//应用崩溃的时候自动重启
-  max_restarts: 10,//最大重启次数
+  max_restarts: 3,//最大重启次数
   restart_delay: 1000,//延时重启
   error_file: "./logs/pm2/logs/error.log",
   out_file: "./logs/pm2/logs/console.log",

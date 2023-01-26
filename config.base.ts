@@ -1,7 +1,12 @@
+export enum ServerMode {
+  MQTTS = "mqtts",
+  WSS = "WSS",
+}
+
 const baseConfig: BaseConfig = {
   isDebug: false,
   server: {
-    mode: "mqtts",
+    mode: ServerMode.MQTTS,
     port: 2333,
     bindDomains: [],
     forwardServer: {
@@ -41,11 +46,11 @@ export interface Connection {
 }
 
 export interface ServerConfig {
-  mode?: "mqtts" | "wss"; //提供两种传输方式 默认mqtts 但是mqtts大部分cdn厂商都不支持 没办法使用cdn wss是加密websocket基本都支持
+  mode?: ServerMode; //提供两种传输方式 默认mqtts 但是mqtts大部分cdn厂商都不支持 没办法使用cdn wss是加密websocket基本都支持
   port?: number;
   qos?: 0 | 1 | 2; //QoS传输控制 默认0 https://www.emqx.com/zh/blog/introduction-to-mqtt-qos
   //server client 绑定的通信域名
-  bindDomains: Array<string>;
+  bindDomains?: Array<string>;
   forwardServer?: {
     port?: number;
   };
