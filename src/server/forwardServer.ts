@@ -30,88 +30,87 @@ export class ForwardServer {
   }
 
   private async registerTCPServer(ssl) {
-    this.tcpServer = tls.createServer(
-      {
-        keepAlive: true,
-        minVersion: "TLSv1.3",
-        key: ssl.private,
-        cert: ssl.certificate,
-        ca: ssl.certificate,
-        dhparam: ssl.dhparam,
-      },
-      async (socket: TLSSocket) => {
-        const bindPortInfo = this.findDomainBindPortInfo(
-          // @ts-ignore
-          socket?.servername ?? "",
-          ConnectionType.TCP,
-        );
+    this.tcpServer = tls.createServer({
+      keepAlive: true,
+      minVersion: "TLSv1.3",
+      key: ssl.private,
+      cert: ssl.certificate,
+      ca: ssl.certificate,
+      dhparam: ssl.dhparam,
+    });
 
-        if (bindPortInfo) {
-          const newSocket = bindPortInfo.hasSSL
-            ? tls.connect({
-                port: bindPortInfo.port,
-                host: "localhost",
-                minVersion: "TLSv1.3",
-                rejectUnauthorized: false, //忽略证书错误
-              })
-            : net.createConnection({
-                port: bindPortInfo.port,
-                host: "localhost",
-                keepAlive: true,
-              });
+    this.tcpServer.on("secureConnection", async (socket: TLSSocket) => {
+      const bindPortInfo = this.findDomainBindPortInfo(
+        // @ts-ignore
+        socket?.servername ?? "",
+        ConnectionType.TCP,
+      );
 
-          const close = () => {
-            newSocket.end();
-            newSocket.unref();
-            newSocket.destroy();
-            newSocket.removeAllListeners();
-          };
+      if (bindPortInfo) {
+        const newSocket = bindPortInfo.hasSSL
+          ? tls.connect({
+              port: bindPortInfo.port,
+              host: "localhost",
+              minVersion: "TLSv1.3",
+              rejectUnauthorized: false, //忽略证书错误
+            })
+          : net.createConnection({
+              port: bindPortInfo.port,
+              host: "localhost",
+              keepAlive: true,
+            });
 
-          newSocket.on("error", (err) => {
-            switch (err.message) {
-              case "read ECONNRESET":
-                newSocket.resume();
-                break;
-              case "write EPIPE":
-                newSocket.resume();
-                break;
-              default:
-                close();
-                break;
-            }
-          });
+        const close = () => {
+          newSocket.end();
+          newSocket.unref();
+          newSocket.destroy();
+          newSocket.removeAllListeners();
+        };
 
-          newSocket.on("close", close);
-          newSocket.on("end", close);
-          newSocket.on("timeout", close);
+        newSocket.on("error", (err) => {
+          switch (err.message) {
+            case "read ECONNRESET":
+              newSocket.resume();
+              break;
+            case "write EPIPE":
+              newSocket.resume();
+              break;
+            default:
+              close();
+              break;
+          }
+        });
 
-          socket.on("error", (err) => {
-            switch (err.message) {
-              case "read ECONNRESET":
-                socket.resume();
-                break;
-              case "write EPIPE":
-                socket.resume();
-                break;
-              default:
-                //其他错误  不处理
-                break;
-            }
-          });
+        newSocket.on("close", close);
+        newSocket.on("end", close);
+        newSocket.on("timeout", close);
 
-          await Promise.all([
-            pipeline(newSocket, socket),
-            pipeline(socket, newSocket),
-          ]).catch((e) => {});
-        } else {
-          socket.end(() => {
-            socket.unref();
-            socket.destroy();
-            socket.removeAllListeners();
-          });
-        }
-      },
-    );
+        socket.on("error", (err) => {
+          switch (err.message) {
+            case "read ECONNRESET":
+              socket.resume();
+              break;
+            case "write EPIPE":
+              socket.resume();
+              break;
+            default:
+              //其他错误  不处理
+              break;
+          }
+        });
+
+        await Promise.all([
+          pipeline(newSocket, socket),
+          pipeline(socket, newSocket),
+        ]).catch((e) => {});
+      } else {
+        socket.end(() => {
+          socket.unref();
+          socket.destroy();
+          socket.removeAllListeners();
+        });
+      }
+    });
 
     this.tcpServer.listen(this.port);
   }
