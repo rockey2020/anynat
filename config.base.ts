@@ -1,6 +1,6 @@
 export enum ServerMode {
   MQTTS = "mqtts",
-  WSS = "WSS",
+  WSS = "wss",
 }
 
 const baseConfig: BaseConfig = {
