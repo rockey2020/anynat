@@ -3,7 +3,7 @@ import EventEmitter2 from "eventemitter2";
 export class Adapter {
   protected id?: string;
   protected readonly port: number;
-  protected readonly host: string = "0.0.0.0";
+  protected readonly host: string = "localhost";
   protected socketMap: Map<
     string,
     { close: () => Promise<void>; write: (chunk: Buffer) => Promise<void> }
