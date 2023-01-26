@@ -23,7 +23,7 @@ export const startServer = async (
     port: getConfig.server?.port || 0,
     domains: getConfig.server?.bindDomains ?? [],
     type: ConnectionType.TCP,
-    hasSSL: false,
+    hasSSL: true,
   });
 
   for (let item of connections) {
