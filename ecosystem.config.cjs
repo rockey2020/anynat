@@ -11,7 +11,7 @@ module.exports = {
       node_args: "--expose-gc --trace-warnings",
       instances: 1,//0:根据cpu核数启动对应的进程数量
       exec_mode: "cluster",//cluster or fork
-      watch: ["./dist-prod"], //监听变化重载应用
+      watch: false, //监听变化重载应用
       max_memory_restart,//超出最大内存就重启应用
       autorestart: true,//应用崩溃的时候自动重启
       max_restarts: Infinity,//最大重启次数
