@@ -1,7 +1,7 @@
 {
   "name": "anynat",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
   "files": [
     "dist-prod",
@@ -25,8 +25,8 @@
     "build-prod-watch": "tsc && vite build --mode production --watch",
     "startup-all": "pm2 save && pm2 startup && pm2 save",
     "doc": "typedoc --tsconfig tsconfig.json --options typedoc.cjs",
-    "build-image": "docker build -t anynat:latest .",
-    "image": "docker-compose up -d"
+    "image-build": "docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t rockey1997/anynat:1.0.0 -o type=registry .",
+    "image-run": "docker-compose up -d"
   },
   "browserslist": [
     "defaults",
