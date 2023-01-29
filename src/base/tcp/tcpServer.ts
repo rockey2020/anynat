@@ -22,7 +22,7 @@ export class TCPServer extends Adapter {
       );
     });
 
-    this.server.listen(this.port, this.host);
+    this.server.listen(this.port);
 
     return this;
   }
