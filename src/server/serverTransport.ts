@@ -82,7 +82,12 @@ export class ServerTransport {
         connection,
         chunk: Buffer.from([]),
       });
-      await this.send?.(sendInterceptorResult);
+      try {
+        await this.send?.(sendInterceptorResult);
+      } catch (e) {
+        await server.destroyBelongId(belongId);
+        throw e;
+      }
     });
 
     broadcast.on(`data`, async (belongId: string, chunk: Buffer) => {
@@ -93,7 +98,12 @@ export class ServerTransport {
         connection,
         chunk: chunk,
       });
-      await this.send?.(sendInterceptorResult);
+      try {
+        await this.send?.(sendInterceptorResult);
+      } catch (e) {
+        await server.destroyBelongId(belongId);
+        throw e;
+      }
     });
     broadcast.on(`destroyed`, async (belongId: string) => {
       const sendInterceptorResult = await this.sendInterceptor({
@@ -146,7 +156,7 @@ export class ServerTransport {
       replyTask = new PQueue<PriorityQueue, QueueAddOptions>({
         concurrency: 1,
         throwOnTimeout: true,
-        timeout: 1000 * 120, //任务最多执行120秒 超时会报错
+        timeout: 1000 * 30, //任务socket超时配置 超时会报错
       });
       this.replyTaskQueueMap.set(
         `${data.connectionKey}/${data.belongId}`,

@@ -156,7 +156,7 @@ export class ClientTransport {
       replyTask = new PQueue<PriorityQueue, QueueAddOptions>({
         concurrency: 1,
         throwOnTimeout: true,
-        timeout: 1000 * 120, //任务最多执行120秒 超时会报错
+        timeout: 1000 * 30, //任务超时配置 超时会报错
       });
       this.replyTaskQueueMap.set(
         `${this.getConnectionKey(this.connection)}/${data.belongId}`,

@@ -8,12 +8,10 @@ export const commonSocketHandler = async (
   emitData,
   emitDestroyed,
 ) => {
-  socket.setTimeout(1000 * 120); //120秒超时
+  socket.setTimeout(1000 * 30); //socket超时配置
 
   //暂停socket
   socket.pause();
-  //先建立连接 建立完成之后再恢复socket
-  await emitConnection(socketId);
 
   const write = (chunk: Buffer): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -36,7 +34,7 @@ export const commonSocketHandler = async (
     });
   };
 
-  //建立成功后将socket缓存起来 以便后续的操作
+  //将socket缓存起来 以便后续的操作
   socketMap.set(socketId, { close, write });
 
   socket.on("data", async (chunk: Buffer) => {
@@ -65,6 +63,9 @@ export const commonSocketHandler = async (
   socket.on("end", () => emitDestroyed(socketId));
 
   socket.on("timeout", () => emitDestroyed(socketId));
+
+  //建立连接 建立完成之后再恢复socket
+  await emitConnection(socketId);
 
   socket.resume();
 };
