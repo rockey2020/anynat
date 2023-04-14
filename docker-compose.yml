@@ -3,17 +3,15 @@ version: '3.9'
 services:
 
   anynat:
-    #临时解决不支持m1芯片的问题 一般情况是可以去掉 会自动匹配对应的系统
-    #    platform: linux/x86_64
     image: rockey1997/anynat:1.0.0 #镜像版本
     container_name: anynat_1 #容器名称
     ports:
-      - "2333:2333"
-      - "443:443"
-      - "10000:22"
+      - "2333:2333" #服务端与客户端通信的端口  如果没有域名的情况下 可以使用 公网IP:2333进行连接
+      - "443:443" #使用该端口需要绑定域名  例如a.com对应客户端80服务端口  b.com对应客户端服务端口81 如果使用IP+端口的访问方式 需要在此暴露对应的端口  例如bindPort是11300   就要添加11300:11300
+      - "10000:22" #容器ssh端口
     restart: always
     volumes:
-      - "./container/anynat/logs:/root/anynat/logs/pm2/logs"
-      - "./container/anynat/userConfig:/root/anynat/userConfig"
+      - "./container/anynat/logs:/root/anynat/logs/pm2/logs" #日志存放路径
+      - "./container/anynat/userConfig:/root/anynat/userConfig" #配置文件存放路径
     environment:
-      VITE_RUNTIME_TYPE: server
+      VITE_RUNTIME_TYPE: server #运行方式 server:服务端 client:客户端
