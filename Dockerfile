@@ -1,5 +1,5 @@
 #基础镜像
-FROM node:20.3.0-slim
+FROM node:20.2.0-slim
 
 #作者信息
 LABEL maintainer="rockey <rockey543400@foxmail.com>"
@@ -24,7 +24,7 @@ RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 #执行项目所需要的部署命令
 RUN npm i pm2 -g
-RUN npm i
+RUN npm i --force
 
 #暴露端口
 EXPOSE 2333 443 22
