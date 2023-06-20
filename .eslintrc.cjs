@@ -11,7 +11,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended', // Make sure this is always the last element in the array.
+    'plugin:prettier/recommended',
   ],
   plugins: ['simple-import-sort'],
   rules: {
@@ -21,6 +21,22 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "no-case-declarations": "off",
-    "no-async-promise-executor": "off"
+    "no-async-promise-executor": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-restricted-syntax": "off",
+    "no-shadow": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "no-console": "off",
+    "import/prefer-default-export": "off",
+    "no-param-reassign": "off",
+    "no-unused-expressions": "off",
+    "no-restricted-globals": "off",
+    "default-case": "off",
+    "no-useless-return": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "no-nested-ternary": "off",
+    "no-use-before-define": "off"
   },
 };

@@ -1,13 +1,11 @@
 import { getSSL } from "../../utils/getSSL";
 import { SecureServerOptions } from "http2";
-import Aedes, { AedesOptions } from "aedes";
+import Aedes, { AedesOptions, AedesPublishPacket, Client } from "aedes";
 import http2 from "node:http2";
 import tls from "node:tls";
 import ws from "websocket-stream";
 import { ServerChannelReplyParams, ServerChannelSendParams } from "../index";
 import { ConnectionType, ServerMode } from "../../../config.base";
-import { AedesPublishPacket } from "packet";
-import { Client } from "aedes:client";
 import { TransportType } from "../../base/types";
 import { getConfig } from "../../utils/getConfig";
 

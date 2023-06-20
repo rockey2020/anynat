@@ -1,7 +1,7 @@
 import { defineConfig, PluginOption, UserConfig } from "vite";
-import { babel } from "@rollup/plugin-babel";
+// import { babel } from "@rollup/plugin-babel";
 import eslint from "vite-plugin-eslint";
-import dts from "vite-plugin-dts";
+// import dts from "vite-plugin-dts";
 import { dependencies } from "./package.json";
 import { builtinModules } from "module";
 
@@ -85,13 +85,7 @@ export default defineConfig(({ mode }): UserConfig => {
       eslint({
         fix: false,
         lintOnStart: true,
-        exclude: [
-          "**/node_modules/**",
-          "**/dist-dev/**",
-          "**/dist-prod/**",
-          "**/dist/**",
-          "**/docs/**",
-        ],
+        include: ["./src"],
       }),
     );
   }

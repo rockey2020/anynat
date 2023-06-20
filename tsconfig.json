@@ -5,13 +5,14 @@
     "module": "ESNext",
     "lib": [
       "ESNext",
-      "DOM"
+      "DOM",
+      "DOM.Iterable"
     ],
     "moduleResolution": "Node",
     "strict": true,
     "sourceMap": false,
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "esModuleInterop": true,
     "noEmit": true,
     "noUnusedLocals": false,
@@ -23,9 +24,19 @@
     "allowJs": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "removeComments": true,
+    "strictNullChecks": false,
+    "emitDecoratorMetadata": true,
+    "allowImportingTsExtensions": true
   },
   "include": [
-    "src"
+    "src",
+    "**/types.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }
