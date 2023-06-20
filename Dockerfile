@@ -1,5 +1,5 @@
 #基础镜像
-FROM node:19.5.0-slim
+FROM node:20.3.0-slim
 
 #作者信息
 LABEL maintainer="rockey <rockey543400@foxmail.com>"
